@@ -1,117 +1,124 @@
-# Arsi-TeX: Automated Architecture & Interior Document Generator
+# Arsi-TeX
+
+> Automated Architecture & Interior Document Generator Powered by FastAPI, Typst, and React.
 
 [![FastAPI](https://img.shields.io/badge/Backend-FastAPI-009688.svg?logo=fastapi&logoColor=white)](https://fastapi.tiangolo.com)
 [![Typst](https://img.shields.io/badge/PDF_Engine-Typst-239dad.svg)](https://typst.app)
 [![React](https://img.shields.io/badge/Frontend-React_19_TypeScript-61dafb.svg?logo=react&logoColor=black)](https://react.dev)
 [![TailwindCSS](https://img.shields.io/badge/Styling-Tailwind_CSS_v4-38bdf8.svg?logo=tailwindcss&logoColor=white)](https://tailwindcss.com)
 [![Docker](https://img.shields.io/badge/Container-Docker_Compose-2496ed.svg?logo=docker&logoColor=white)](https://www.docker.com)
-[![Pytest](https://img.shields.io/badge/Tests-17_Passed-brightgreen.svg)](https://pytest.org)
+[![Tests](https://img.shields.io/badge/Tests-17_Passed-2ea44f.svg)](https://pytest.org)
 
-**Arsi-TeX** adalah sistem otomasi dokumen profesional (Proposal Penawaran Jasa, Spesifikasi Teknis Material, Invoice Termin Pembayaran, dan Kontrak Kerja Desain Arsitektur) yang dirancang khusus untuk arsitek, desainer interior, dan kontraktor kecil di Indonesia.
+Arsi-TeX adalah sistem otomatisasi dokumen terpadu yang dirancang untuk arsitek, desainer interior, dan kontraktor skala menengah ke bawah di Indonesia. Sistem ini mengeliminasi pekerjaan administratif manual dalam penyusunan proposal penawaran, rincian spesifikasi teknis, invoice penagihan termin, dan kontrak kerja formal.
 
-Aplikasi ini menggabungkan kecepatan pengisian form web intuitif dengan mesin typesetting modern **Typst**, menghasilkan dokumen PDF dengan tipografi tajam, margin presisi, repeating table header, dan penomoran otomatis tanpa pengguna perlu mempelajari sintaks kode apa pun.
+Berbeda dengan solusi generator dokumen berbasis HTML canvas atau screenshot DOM yang menghasilkan teks buram dan pagination tidak presisi, Arsi-TeX mengintegrasikan mesin typesetting **Typst** secara native di sisi backend. Hasil akhir berupa file PDF berstandar cetak dengan tipografi presisi, teks yang dapat diseleksi (searchable vector text), penomoran halaman otomatis, dan pemecahan tabel dinamis (*repeating table header*).
 
 ---
 
-## 📑 4 Jenis Dokumen Resmi yang Dihasilkan
+## Dokumen yang Dihasilkan
 
-| Jenis Dokumen | Kode Nomor | Deskripsi & Komponen Utama |
+Sistem menyediakan 4 template dokumen terstandardisasi:
+
+| Jenis Dokumen | Format Penomoran | Komponen Utama |
 | :--- | :--- | :--- |
-| **Proposal Desain** | `PROP/YYYY/MM/xxx` | Cover elegan, profil studio & klien, ringkasan data proyek, ruang lingkup jasa, tabel rincian biaya dengan repeating header, tahapan jadwal kerja, skema termin pembayaran, syarat & ketentuan, dan kolom tanda tangan. |
-| **Spesifikasi Teknis** | `SPEK/YYYY/MM/xxx` | Dokumen spesifikasi material terorganisasi per area/ruang (item pekerjaan, jenis material, merek/tipe, volume, satuan, dan standar mutu pengerjaan) serta lembar persetujuan pemilik proyek. |
-| **Invoice Tagihan** | `INV/YYYY/MM/xxx` | Kop surat resmi studio, nomor invoice, tanggal jatuh tempo, rincian termin tertagih, subtotal, diskon, PPN (11% / kustom), total, teks Terbilang Rupiah otomatis, instruksi rekening bank, dan catatan pembayaran. |
-| **Kontrak Kerja Desain** | `KTR/YYYY/MM/xxx` | Perjanjian kerja formal antara Studio dan Klien yang memuat 9 pasal standar (Ruang Lingkup, Jangka Waktu, Nilai & Pembayaran, Hak & Kewajiban, Revisi & Approval, Hak Cipta Desain, Pembatalan, Force Majeure, Penyelesaian Sengketa) disertai kotak materai Rp 10.000 dan legal disclaimer. |
+| Proposal Desain | `PROP/YYYY/MM/xxx` | Cover resmi studio, profil klien, parameter proyek (luas, lokasi, tipologi), ruang lingkup jasa terstruktur, tabel rincian biaya dengan repeating header, jadwal tahapan kerja, skema termin, dan kolom tanda tangan kedua pihak. |
+| Spesifikasi Teknis | `SPEK/YYYY/MM/xxx` | Matriks spesifikasi material per area/ruang pekerjaan, volume, satuan, merek/tipe material, instruksi teknis instalasi, standar mutu pengerjaan, dan lembar persetujuan owner. |
+| Invoice Tagihan | `INV/YYYY/MM/xxx` | Kop surat studio, nomor faktur urut, jatuh tempo, pemetaan termin tertagih, subtotal, diskon, PPN (11% atau kustom), total Rupiah, konversi teks Terbilang otomatis, dan instruksi rekening transfer. |
+| Kontrak Kerja Desain | `KTR/YYYY/MM/xxx` | Perjanjian kerja formal 9 pasal standar praktik arsitektur (Ruang Lingkup, Jangka Waktu, Nilai Kontrak & Termin, Hak & Kewajiban, Revisi & Approval, Hak Cipta Desain, Pembatalan, Force Majeure, Penyelesaian Sengketa), kotak materai Rp 10.000, dan klausul disclaimer. |
 
 ---
 
-## ✨ Fitur Utama
+## Fitur Utama
 
-### 1. Mesin PDF Berbasis Typst (Bukan Canvas / Screenshot Hack)
-- Dokumen PDF dikompilasi langsung dari template Typst berkecepatan tinggi.
-- Teks dokumen dapat disorot (searchable & selectable text), tajam untuk dicetak dalam ukuran A4.
-- Tabel material panjang secara otomatis terpecah ke halaman baru dengan header tabel yang berulang (*repeating header*).
+### 1. Mesin Kompilasi PDF Typst
+- Kompilasi dokumen native tanpa dependensi headless browser yang berat.
+- Tipografi tajam berbasis format A4 dengan margin yang konsisten.
+- Penanganan tabel panjang otomatis (*multi-page table break*) dengan header kolom yang berulang pada setiap halaman baru.
 
-### 2. Logika Finansial Presisi & Terbilang Bahasa Indonesia
-- **Integer Rupiah Penuh**: Seluruh perhitungan uang disimpan sebagai bilangan bulat Rupiah tanpa pembulatan *float* desimal yang rawan selisih.
-- **Validasi 100% Termin**: Sistem memvalidasi akumulasi persentase termin harus tepat 100%. Sisa pembulatan Rupiah dialokasikan secara matematis ke termin terakhir agar totalnya klop.
-- **Terbilang Otomatis**: Konversi angka Rupiah ke kata-kata berbahasa Indonesia formal (misal: `Rp 247.500.000` → *"Dua Ratus Empat Puluh Tujuh Juta Lima Ratus Ribu Rupiah"*).
+### 2. Akurasi Finansial dan Terbilang Otomatis
+- **Aritmatika Integer Rupiah**: Seluruh kalkulasi finansial dihitung dalam representasi bilangan bulat untuk menghindari *floating-point rounding error*.
+- **Distribusi Sisa Pembulatan**: Pembagian termin persentase divalidasi ketat (harus tepat 100%). Sisa pembulatan Rupiah dialokasikan secara otomatis ke termin akhir sehingga akumulasi nominal termin tepat bernilai sama dengan total proyek.
+- **Konversi Terbilang Bahasa Indonesia**: Parser bilangan otomatis yang menghasilkan kalimat baku terbilang bahasa Indonesia (contoh: Rp 247.500.000 dikonversi menjadi "Dua Ratus Empat Puluh Tujuh Juta Lima Ratus Ribu Rupiah").
 
-### 3. Manajemen Klien & Proyek (CRUD & Duplikasi 1-Klik)
-- **Database Penyimpanan**: Tersimpan rapi di SQLite (lokal/docker) dan siap bermigrasi ke PostgreSQL.
-- **Duplikasi Proyek 1-Klik**: Duplikasi proyek lama beserta seluruh rincian spesifikasi material, jadwal kerja, dan termin pembayaran menjadi draf baru dalam hitungan detik.
-- **Penomoran Dokumen Otomatis**: Penomoran terstandardisasi dan otomatis bertambah per bulan (misal `PROP/2026/11/001`, `PROP/2026/11/002`).
+### 3. Manajemen Klien, Proyek, dan Duplikasi Instan
+- Database terstruktur untuk entitas studio, klien, proyek, rincian material, tahapan kerja, dan termin pembayaran.
+- **Duplikasi Proyek 1-Klik**: Kemampuan kloning proyek lama beserta seluruh rincian spesifikasi dan skema pembayarannya menjadi draf proyek baru dalam hitungan detik.
+- **Penomoran Urut Otomatis**: Generator nomor dokumen berurutan per kategori dokumen dan per periode bulan (contoh: `PROP/2026/11/001`, `PROP/2026/11/002`).
 
 ### 4. Immutabilitas Snapshot Dokumen
-- Setiap dokumen yang diterbitkan secara resmi (`POST /api/projects/{id}/documents`) akan **mengunci seluruh data saat itu ke dalam JSON snapshot**.
-- Perubahan data klien atau rincian proyek di kemudian hari **tidak akan merusak atau mengubah isi dokumen lama** yang telah diterbitkan sebelumnya. File PDF arsip dapat diunduh ulang kapan saja melalui tab Riwayat Dokumen.
+- Setiap penerbitan dokumen resmi mengunci salinan data proyek saat itu (*immutable JSON snapshot*) ke database.
+- Perubahan atau pembaruan pada data proyek di masa mendatang tidak akan memengaruhi dokumen historis yang sudah diterbitkan.
+- File PDF yang telah diterbitkan dapat diunduh ulang kapan saja melalui tab Riwayat Dokumen.
 
-### 5. Fleksibilitas Klausul Kontrak & Legal Disclaimer
-- Memuat 9 klausul baku praktik arsitek & interior Indonesia yang dapat diaktifkan, dinonaktifkan, atau disunting langsung dari antarmuka web.
-- Dilengkapi tombol reset ke klausul baku bawaan.
-- Menampilkan *legal disclaimer* jelas bahwa draf kontrak merupakan panduan standar dan disarankan untuk ditinjau oleh konsultan hukum.
-
-### 6. Branding Studio & Kustomisasi Warna
-- Studio dapat mengatur nama usaha, alamat, kontak, nomor rekening, NPWP, serta memilih **Warna Utama** dan **Warna Aksen** brand.
-- Warna brand otomatis disuntikkan ke dalam palet PDF Typst (garis aksen, badge nomor dokumen, header tabel, dan footer).
-
-### 7. Pengalaman Pengguna (UI/UX)
-- Stepper navigasi 7 tahap: **Studio & Klien → Data Proyek → Material & Biaya → Jadwal Kerja → Termin Pembayaran → Klausul Kontrak → Riwayat Dokumen**.
-- **Autosave Draft**: Draf pengisian form otomatis tersimpan ke `localStorage` sehingga data tidak hilang saat tab tertutup tanpa sengaja.
-- **Live PDF Preview**: Pratinjau dokumen langsung di samping form sebelum diterbitkan atau diunduh.
+### 5. Kustomisasi Branding dan Fleksibilitas Klausul
+- Pengaturan identitas studio mencakup logo, kontak resmi, rekening perbankan, NPWP, serta penyesuaian **Warna Utama** dan **Warna Aksen** brand yang langsung terintegrasi ke palet dokumen PDF.
+- Editor pasal kontrak interaktif: setiap pasal dapat diedit, diaktifkan, dinonaktifkan, atau dikembalikan ke format baku bawaan (*factory reset*).
+- Penyimpanan draf otomatis (*local storage autosave*) untuk mencegah kehilangan data saat form tertutup.
 
 ---
 
-## 🛠️ Arsitektur & Stack Teknologi
+## Arsitektur Sistem
 
 ```
 Arsitex/
-├── docker-compose.yml       # Orkestrasi Docker (Backend + Frontend)
+├── docker-compose.yml              # Orkestrasi multi-container
 ├── backend/
-│   ├── Dockerfile
-│   ├── requirements.txt
+│   ├── Dockerfile                  # Container backend (Python 3.12-slim + font liberation)
+│   ├── requirements.txt            # Dependensi backend
 │   ├── app/
-│   │   ├── api/             # FastAPI Endpoints (clients, projects, documents, clauses, studio)
-│   │   ├── core/            # Config & environment settings
-│   │   ├── db/              # SQLAlchemy session & connection
-│   │   ├── models/          # SQLAlchemy ORM Entities
-│   │   ├── schemas/         # Pydantic v2 schemas
+│   │   ├── api/                    # Router endpoint REST API
+│   │   │   ├── clients.py          # CRUD data klien
+│   │   │   ├── projects.py         # CRUD proyek, duplikasi, penerbitan dokumen
+│   │   │   ├── documents.py        # Pengunduhan PDF snapshot dan auto-numbering
+│   │   │   ├── clauses.py          # Manajemen pasal kontrak
+│   │   │   ├── studio.py           # Konfigurasi profil & warna studio
+│   │   │   └── endpoints.py        # Utilitas kalkulasi dan preview instan
+│   │   ├── core/                   # Konfigurasi aplikasi & environment
+│   │   ├── db/                     # Sesi SQLAlchemy & koneksi database
+│   │   ├── models/                 # Definisi skema ORM SQLAlchemy
+│   │   ├── schemas/                # Skema validasi Pydantic v2
 │   │   ├── services/
-│   │   │   ├── calculator.py    # Integer math, Terbilang ID, PPN, termin
-│   │   │   ├── numbering.py     # Sequential auto-numbering
-│   │   │   ├── pdf_generator.py # Typst compiler wrapper
-│   │   │   └── clauses_default.py # 9 pasal standar kontrak
-│   │   ├── templates/       # Template Typst (.typ)
+│   │   │   ├── calculator.py       # Aritmatika finansial, PPN, termin, terbilang
+│   │   │   ├── numbering.py        # Generator nomor urut dokumen
+│   │   │   ├── pdf_generator.py    # Wrapper kompilasi Typst ke PDF stream
+│   │   │   └── clauses_default.py  # 9 pasal standar kontrak arsitektur
+│   │   ├── templates/              # File template typesetting Typst (.typ)
 │   │   │   ├── proposal.typ
 │   │   │   ├── spek.typ
 │   │   │   ├── invoice.typ
 │   │   │   └── kontrak.typ
-│   │   └── main.py          # FastAPI application entrypoint
-│   └── tests/               # 17 automated Pytest suites
+│   │   └── main.py                 # Titik masuk aplikasi FastAPI
+│   └── tests/                      # Rangkaian pengujian unit Pytest
 └── frontend/
-    ├── Dockerfile           # Multi-stage build (Node 22 -> Nginx Alpine)
-    ├── nginx.conf           # Reverse proxy /api/ to backend:8000
+    ├── Dockerfile                  # Multi-stage container build (Node 22 -> Nginx Alpine)
+    ├── nginx.conf                  # Konfigurasi reverse proxy Nginx
     ├── package.json
     ├── vite.config.ts
     └── src/
-        ├── App.tsx          # Main Stepper UI, Preview, Autosave & Project Drawer
-        └── types.ts         # TypeScript strict interfaces
+        ├── App.tsx                 # Form stepper, live preview, drawer, dan riwayat
+        ├── types.ts                # Deklarasi tipe TypeScript ketat
+        ├── main.tsx                # Entry point React
+        └── index.css               # Setup Tailwind CSS v4
 ```
 
 ---
 
-## 🚀 Cara Menjalankan
+## Panduan Instalasi dan Menjalankan
 
-### Opsi A: Menggunakan Docker Compose (Direkomendasikan untuk Produksi)
+### Opsi 1: Menggunakan Docker Compose (Direkomendasikan)
 
-Cukup satu perintah dari direktori root:
+Prasyarat: Docker Engine dan Docker Compose telah terpasang.
+
+Jalankan perintah berikut pada direktori utama:
 
 ```bash
 docker compose up --build -d
 ```
 
-- **Aplikasi Web**: Buka [http://localhost:5173](http://localhost:5173) atau [http://localhost](http://localhost)
-- **Backend API Docs (Swagger)**: Buka [http://localhost:8000/docs](http://localhost:8000/docs)
-- **Database & PDF Storage**: Terpasang otomatis di volume `./storage/`
+Akses layanan:
+- Frontend Web App: `http://localhost:5173` atau `http://localhost`
+- Dokumentasi API Interaktif (Swagger UI): `http://localhost:8000/docs`
+- Redoc API: `http://localhost:8000/redoc`
 
 Untuk menghentikan kontainer:
 ```bash
@@ -120,91 +127,109 @@ docker compose down
 
 ---
 
-### Opsi B: Menjalankan Secara Lokal (Development Mode)
+### Opsi 2: Menjalankan Secara Lokal (Development)
 
-#### 1. Persiapan Backend
-Pastikan Python 3.12+ telah terpasang:
+#### Backend (FastAPI)
+Prasyarat: Python 3.12 atau yang lebih baru.
 
 ```bash
 cd backend
 
-# Buat dan aktifkan virtual environment
+# Membuat dan mengaktifkan virtual environment
 python3 -m venv venv
 source venv/bin/activate  # Di Windows: venv\Scripts\activate
 
-# Pasang dependensi
+# Menginstal dependensi
 pip install -r requirements.txt
 
-# Jalankan server FastAPI
+# Menjalankan server pengembangan
 uvicorn app.main:app --reload --port 8000
 ```
-API akan aktif di `http://localhost:8000`.
 
-#### 2. Persiapan Frontend
-Buka terminal baru di folder `frontend`:
+#### Frontend (React + Vite)
+Prasyarat: Node.js 20 atau yang lebih baru.
 
 ```bash
 cd frontend
 
-# Pasang paket node
+# Menginstal paket dependensi
 npm install
 
-# Jalankan Vite dev server
+# Menjalankan server pengembangan Vite
 npm run dev
 ```
-Aplikasi frontend akan aktif di `http://localhost:5173`.
+
+Aplikasi frontend dapat diakses melalui browser pada alamat `http://localhost:5173`.
 
 ---
 
-## 🧪 Pengujian Otomatis (Automated Testing)
+## Konfigurasi Environment
 
-Arsi-TeX dilengkapi dengan pengujian komprehensif menggunakan Pytest yang menguji seluruh logika finansial, database, penomoran urut, hingga kompilasi PDF asli:
+Aplikasi dapat dikonfigurasi melalui environment variable atau file `.env`:
+
+| Variabel | Default | Keterangan |
+| :--- | :--- | :--- |
+| `DATABASE_URL` | `sqlite:///./arsitex.db` | URL koneksi database (SQLite atau PostgreSQL) |
+| `STORAGE_DIR` | `storage` | Direktori penyimpanan file PDF arsip |
+| `TEMPLATES_DIR` | `app/templates` | Direktori penyimpanan template Typst |
+
+---
+
+## Pengujian Otomatis
+
+Rangkaian unit test komprehensif memvalidasi integritas logika finansial, database, nomor urut dokumen, dan kompilasi PDF.
+
+Jalankan seluruh test suite menggunakan perintah:
 
 ```bash
 PYTHONPATH=backend backend/venv/bin/pytest backend/tests -v
 ```
 
-Hasil uji: **17 passed** tanpa kegagalan:
-1. `test_terbilang_dasar`: Validasi angka nol, belasan, puluhan, ratusan.
-2. `test_terbilang_ribuan_jutaan`: Validasi jutaan, miliaran, triliunan.
-3. `test_format_rupiah`: Validasi pemformatan `Rp 12.500.000`.
-4. `test_calculate_financials`: Validasi subtotal, diskon, PPN 11%, dan total.
-5. `test_calculate_terms_persen`: Validasi distribusi termin pembayaran normal.
-6. `test_calculate_terms_persen_ganjil_dan_pembulatan`: Validasi pembagian 33.33% tanpa selisih 1 rupiah pun.
-7. `test_calculate_terms_invalid_persen`: Menolak skema termin yang total persentasenya tidak 100%.
-8. `test_client_crud`: Pengujian pembuatan, pembacaan, dan update klien.
-9. `test_project_crud_and_duplicate`: Pengujian proyek dan duplikasi 1-klik beserta sub-item.
-10. `test_auto_numbering_and_snapshot_immutability`: Pengujian nomor urut berulang dan isolasi snapshot dokumen lama.
-11. `test_studio_branding`: Pengujian kustomisasi profil dan warna brand studio.
-12. `test_contract_clauses`: Pengujian modifikasi klausul kontrak dan reset ke pasal baku.
-13. `test_generate_proposal_pdf`: Kompilasi dokumen Proposal Typst menjadi byte PDF valid.
-14. `test_generate_invoice_pdf`: Kompilasi dokumen Invoice Typst menjadi byte PDF valid.
-15. `test_generate_spek_pdf`: Kompilasi dokumen Spesifikasi Teknis Typst menjadi byte PDF valid.
-16. `test_generate_kontrak_pdf`: Kompilasi dokumen Kontrak Kerja Typst menjadi byte PDF valid.
-17. `test_generate_proposal_multipage_table`: Pengujian tabel material lebih dari 40 baris agar otomatis memicu page break dan repeating header.
+Cakupan pengujian (17 skenario lulus):
+- `test_terbilang_dasar`: Validasi bilangan nol, satuan, belasan, dan puluhan.
+- `test_terbilang_ribuan_jutaan`: Validasi bilangan jutaan, miliaran, dan triliunan.
+- `test_format_rupiah`: Format mata uang standar Indonesia (`Rp 12.500.000`).
+- `test_calculate_financials`: Perhitungan subtotal material, diskon, DPP, PPN 11%, dan total akhir.
+- `test_calculate_terms_persen`: Distribusi nominal termin berbasis persentase.
+- `test_calculate_terms_persen_ganjil_dan_pembulatan`: Distribusi presisi persentase ganjil (33.33%) dengan alokasi sisa pembulatan pada termin akhir.
+- `test_calculate_terms_invalid_persen`: Penolakan skema termin apabila total persentase tidak tepat 100%.
+- `test_client_crud`: Siklus hidup pembuatan, pembacaan, dan pembaharuan profil klien.
+- `test_project_crud_and_duplicate`: Pembuatan proyek dan duplikasi instan beserta seluruh relasi sub-item.
+- `test_auto_numbering_and_snapshot_immutability`: Generator nomor berurutan dan penguncian snapshot data dokumen lama.
+- `test_studio_branding`: Penyimpanan profil studio dan warna kustom.
+- `test_contract_clauses`: Penyesuaian isi klausul kontrak dan fungsionalitas reset ke pasal baku.
+- `test_generate_proposal_pdf`: Kompilasi template Proposal ke dalam byte PDF valid.
+- `test_generate_invoice_pdf`: Kompilasi template Invoice ke dalam byte PDF valid.
+- `test_generate_spek_pdf`: Kompilasi template Spesifikasi Teknis ke dalam byte PDF valid.
+- `test_generate_kontrak_pdf`: Kompilasi template Kontrak Kerja Desain ke dalam byte PDF valid.
+- `test_generate_proposal_multipage_table`: Pengujian tabel volume besar untuk memastikan page break dan header berulang berjalan sempurna.
 
 ---
 
-## 📡 Ringkasan Endpoint API
+## Dokumentasi Endpoint REST API
 
-| Method | Endpoint | Deskripsi |
+| Method | Endpoint | Fungsi |
 | :--- | :--- | :--- |
-| `POST` | `/api/calculate` | Kalkulasi finansial instan (subtotal, diskon, PPN, termin, terbilang) |
-| `POST` | `/api/documents/preview` | Preview instan PDF tanpa menyimpan ke database (mengembalikan stream PDF) |
-| `POST` | `/api/documents/download` | Unduh langsung PDF draf sekali pakai |
-| `GET` | `/api/documents/next-number?jenis={proposal\|spek\|invoice\|kontrak}` | Prediksi nomor dokumen urut berikutnya |
-| `GET` | `/api/documents/{id}/pdf` | Unduh file PDF resmi berdasarkan snapshot yang terkunci |
-| `GET` | `/api/clients` / `POST /api/clients` | Daftar & tambah data klien |
-| `GET` | `/api/projects` / `POST /api/projects` | Daftar & simpan data proyek |
-| `POST` | `/api/projects/{id}/duplicate` | Duplikasi proyek secara utuh (1-klik clone) |
-| `POST` | `/api/projects/{id}/documents` | Terbitkan dokumen resmi, kunci snapshot, buat file arsip PDF |
-| `GET` | `/api/projects/{id}/documents` | Ambil riwayat dokumen yang pernah diterbitkan untuk proyek ini |
-| `GET` | `/api/clauses` / `PUT /api/clauses/{id}` | Ambil & perbarui klausul pasal kontrak |
-| `POST` | `/api/clauses/reset` | Reset seluruh klausul kontrak ke standar baku 9 pasal |
-| `GET` | `/api/studio` / `PUT /api/studio` | Profil studio & pengaturan warna branding (`warna_utama`, `warna_aksen`) |
+| `POST` | `/api/calculate` | Kalkulasi finansial cepat (subtotal, diskon, PPN, termin, terbilang). |
+| `POST` | `/api/documents/preview` | Render preview stream PDF langsung tanpa menyimpan ke database. |
+| `POST` | `/api/documents/download` | Unduh file PDF draf instan. |
+| `GET` | `/api/documents/next-number` | Ambil nomor dokumen urut berikutnya berdasarkan jenis dokumen (`proposal`, `spek`, `invoice`, `kontrak`). |
+| `GET` | `/api/documents/{id}/pdf` | Unduh file PDF resmi berdasarkan snapshot data yang terkunci. |
+| `GET` | `/api/clients` | Mengambil seluruh daftar klien terdaftar. |
+| `POST` | `/api/clients` | Menambahkan profil klien baru. |
+| `GET` | `/api/projects` | Mengambil seluruh daftar proyek aktif. |
+| `POST` | `/api/projects` | Menyimpan proyek baru beserta seluruh rincian spesifikasi, jadwal, dan termin. |
+| `POST` | `/api/projects/{id}/duplicate` | Duplikasi proyek 1-klik menjadi draf baru. |
+| `POST` | `/api/projects/{id}/documents` | Terbitkan dokumen resmi, kunci snapshot data, dan buat arsip file PDF fisik. |
+| `GET` | `/api/projects/{id}/documents` | Riwayat seluruh dokumen yang pernah diterbitkan untuk proyek terkait. |
+| `GET` | `/api/clauses` | Mengambil daftar klausul pasal kontrak kerja. |
+| `PUT` | `/api/clauses/{id}` | Memperbarui isi klausul kontrak kerja. |
+| `POST` | `/api/clauses/reset` | Mengembalikan seluruh klausul kontrak ke standar baku 9 pasal. |
+| `GET` | `/api/studio` | Mengambil data profil dan pengaturan warna branding studio. |
+| `PUT` | `/api/studio` | Memperbarui profil dan warna branding studio. |
 
 ---
 
-## ⚖️ Lisensi & Catatan Hukum
+## Ketentuan Hukum dan Batasan
 
-- Template kontrak kerja arsitektur yang disediakan adalah draf panduan standar dan bukan merupakan nasihat hukum formal. Pengguna dianjurkan untuk meninjau kembali klausul kontrak bersama konsultan hukum sebelum ditandatangani para pihak.
+Template dokumen perjanjian kerja arsitektur yang disediakan sistem adalah draf panduan standar berdasarkan praktik umum di Indonesia dan tidak dimaksudkan sebagai nasihat hukum formal. Pengguna disarankan untuk meninjau kembali klausul kontrak bersama konsultan hukum sebelum ditandatangani oleh para pihak.
