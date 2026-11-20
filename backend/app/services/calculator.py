@@ -175,3 +175,4 @@ def calculate_terms(total: int, payment_terms: List[Any]) -> List[Dict[str, Any]
             })
         return calculated
 
+
