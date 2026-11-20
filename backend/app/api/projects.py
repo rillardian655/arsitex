@@ -362,4 +362,3 @@ def generate_and_save_project_document(project_id: int, req: DocumentCreateReque
         dibuat_pada=doc.dibuat_pada,
         pdf_download_url=f"/api/documents/{doc.id}/pdf"
     )
-
