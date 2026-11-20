@@ -237,4 +237,3 @@ def test_contract_clauses():
     assert rst_res.status_code == 200
     rst_clauses = rst_res.json()
     assert rst_clauses[0]["judul"] == "Pasal 1: Ruang Lingkup Jasa Perancangan"
-
