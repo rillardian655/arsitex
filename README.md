@@ -208,3 +208,4 @@ Hasil uji: **17 passed** tanpa kegagalan:
 ## ⚖️ Lisensi & Catatan Hukum
 
 - Template kontrak kerja arsitektur yang disediakan adalah draf panduan standar dan bukan merupakan nasihat hukum formal. Pengguna dianjurkan untuk meninjau kembali klausul kontrak bersama konsultan hukum sebelum ditandatangani para pihak.
+
