@@ -99,4 +99,3 @@ def test_calculate_terms_invalid_persen():
         calculate_terms(1000000, terms)
     assert "100%" in str(exc.value)
 
-
