@@ -53,3 +53,4 @@ def test_generate_proposal_multipage_table():
     assert isinstance(pdf_bytes, bytes)
     assert len(pdf_bytes) > 10000
     assert pdf_bytes.startswith(b"%PDF-")
+
