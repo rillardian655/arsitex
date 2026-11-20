@@ -120,4 +120,3 @@ class ContractClause(Base):
     isi = Column(Text, nullable=False)
     urutan = Column(Integer, default=1)
     aktif = Column(Boolean, default=True)
-
